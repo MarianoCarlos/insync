@@ -30,9 +30,10 @@ export default function Navbar() {
 		try {
 			await signOut(auth);
 
-			// ❌ Remove 'isAdmin' cookie by expiring it
-			document.cookie = "isAdmin=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-			document.cookie = "isLoggedin=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			// Remove all relevant cookies
+			["isAdmin", "isLoggedIn"].forEach((name) => {
+				document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+			});
 
 			setUsername(null);
 			router.push("/");
