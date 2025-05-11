@@ -8,6 +8,7 @@ import { db, auth } from "@/utils/firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const Login = () => {
 	const router = useRouter();
