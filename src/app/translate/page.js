@@ -13,6 +13,7 @@ export default function Translate() {
 	const [facingMode, setFacingMode] = useState("user");
 	const videoRef = useRef(null);
 	const streamRef = useRef(null);
+	const [previousTranslations, setPreviousTranslations] = useState([]);
 
 	const startWebcam = useCallback(async () => {
 		try {
@@ -120,13 +121,17 @@ export default function Translate() {
 			formData.append("file", blob, "frame.jpg");
 
 			try {
-				const response = await fetch("http://localhost:8000/predict", {
+				const response = await fetch(process.env.NEXT_PUBLIC_API_URL, {
 					method: "POST",
 					body: formData,
 				});
 				const data = await response.json();
 				if (data.prediction) {
-					setTranslatedText((prev) => prev + data.prediction);
+					setTranslatedText((prev) => {
+						const updated = prev + data.prediction;
+						setPreviousTranslations((history) => [...history, updated]);
+						return updated;
+					});
 				}
 			} catch (error) {
 				console.error("Prediction error:", error);
@@ -201,8 +206,9 @@ export default function Translate() {
 							</div>
 
 							{/* Right Panel - Translated Text */}
-							<div>
-								<div className="rounded-xl border bg-[#FFFFFF] h-[450px] shadow-md flex flex-col">
+							<div className="flex flex-col lg:flex-row gap-4 h-[450px]">
+								{/* Current Translation */}
+								<div className="rounded-xl border bg-[#FFFFFF] flex-1 shadow-md flex flex-col">
 									<div className="p-4 border-b flex justify-between items-center">
 										<h2 className="font-medium">Translated Text</h2>
 									</div>
@@ -238,6 +244,7 @@ export default function Translate() {
 											onClick={() => {
 												window.speechSynthesis.cancel();
 												setTranslatedText("");
+												setPreviousTranslations([]);
 											}}
 											disabled={!translatedText}
 											className="bg-[#EDEDED] text-[#252525] py-2 px-4 rounded-md flex items-center gap-2"
@@ -245,6 +252,27 @@ export default function Translate() {
 											<RotateCcw size={16} />
 											Reset
 										</button>
+									</div>
+								</div>
+
+								{/* Previous Translations */}
+								<div className="rounded-xl border bg-[#FFFFFF] w-full lg:w-[300px] shadow-md flex flex-col">
+									<div className="p-4 border-b">
+										<h2 className="font-medium">Previous</h2>
+									</div>
+									<div className="flex-1 p-4 overflow-auto text-sm text-[#4A4A4A] space-y-2">
+										{previousTranslations.length > 0 ? (
+											previousTranslations
+												.slice(-10)
+												.reverse()
+												.map((text, index) => (
+													<p key={index} className="bg-[#F3F4F6] rounded-md p-2">
+														{text}
+													</p>
+												))
+										) : (
+											<p className="text-[#8D9192]">No previous translations yet.</p>
+										)}
 									</div>
 								</div>
 							</div>
