@@ -49,14 +49,20 @@ const Login = () => {
 				const userData = userSnap.data();
 				console.log("User profile:", userData);
 
-				// ✅ Set 'isAdmin' cookie using document.cookie
+				// Set cookies (optional, as you already do)
 				if ("isAdmin" in userData) {
 					document.cookie = `isAdmin=${userData.isAdmin}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
 					document.cookie = `isLoggedIn=true; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
 				}
 
 				alert("User signed in!");
-				router.push("/"); // Redirect to home page after successful login
+
+				// Redirect based on isAdmin flag
+				if (userData.isAdmin === true) {
+					router.push("/admin"); // Admin page route
+				} else {
+					router.push("/"); // Regular user landing page
+				}
 			} else {
 				setError("No user data found in Firestore.");
 			}

@@ -1,18 +1,31 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar";
 import Image from "next/image";
-import { Hand } from "lucide-react";
-
-const aslLetters = Array.from({ length: 26 }, (_, i) => {
-	const letter = String.fromCharCode(65 + i); // A-Z
-	return {
-		letter,
-		image: `/asl_letters/${letter.toLowerCase()}.png`,
-	};
-});
+import { db } from "@/utils/firebase"; // ensure this path is correct
+import { collection, getDocs } from "firebase/firestore";
 
 const Letters = () => {
+	const [aslLetters, setAslLetters] = useState([]);
+
+	useEffect(() => {
+		const fetchLetters = async () => {
+			try {
+				const colRef = collection(db, "asl_letters_base64");
+				const snapshot = await getDocs(colRef);
+				const fetchedLetters = snapshot.docs
+					.map((doc) => doc.data())
+					.sort((a, b) => a.letter.localeCompare(b.letter)); // Sort A-Z
+
+				setAslLetters(fetchedLetters);
+			} catch (error) {
+				console.error("Error fetching letters:", error);
+			}
+		};
+
+		fetchLetters();
+	}, []);
+
 	return (
 		<div className="min-h-screen flex flex-col" style={{ backgroundColor: "#EDEDED", color: "#252525" }}>
 			<Navbar />
@@ -32,11 +45,11 @@ const Letters = () => {
 					</div>
 
 					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-						{aslLetters.map(({ letter, image }) => (
+						{aslLetters.map(({ letter, imageBase64 }) => (
 							<div key={letter} className="bg-white rounded-xl shadow hover:shadow-md transition border">
 								<div className="relative w-full aspect-square">
 									<Image
-										src={image}
+										src={imageBase64}
 										alt={`ASL for ${letter}`}
 										fill
 										className="rounded-t-xl object-cover"
