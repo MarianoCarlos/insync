@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Navbar from "../../components/navbar";
 import { BookOpen, ChevronRight, Search, CheckCircle, Filter, GraduationCap, Hand, Clock } from "lucide-react";
 
+// Only ASL lesson retained
 const lessons = [
 	{
 		id: "1",
@@ -11,56 +12,6 @@ const lessons = [
 		level: "Beginner",
 		duration: "15 min",
 		completed: true,
-	},
-	{
-		id: "2",
-		title: "Common Greetings",
-		description: "Master everyday greetings and introductions to start conversations in ASL.",
-		level: "Beginner",
-		duration: "20 min",
-		completed: true,
-	},
-	{
-		id: "3",
-		title: "Numbers and Counting",
-		description: "Learn how to count and express numerical values in American Sign Language.",
-		level: "Beginner",
-		duration: "25 min",
-	},
-	{
-		id: "4",
-		title: "Family and Relationships",
-		description: "Signs for family members and expressing relationships between people.",
-		level: "Intermediate",
-		duration: "30 min",
-	},
-	{
-		id: "5",
-		title: "Food and Dining",
-		description: "Learn vocabulary related to food, drinks, and restaurant interactions.",
-		level: "Intermediate",
-		duration: "35 min",
-	},
-	{
-		id: "6",
-		title: "Travel and Directions",
-		description: "Signs for locations, transportation, and giving/receiving directions.",
-		level: "Intermediate",
-		duration: "40 min",
-	},
-	{
-		id: "7",
-		title: "Emotional Expressions",
-		description: "Communicate feelings and emotions with nuanced facial expressions and signs.",
-		level: "Advanced",
-		duration: "45 min",
-	},
-	{
-		id: "8",
-		title: "Medical and Emergency Terms",
-		description: "Essential vocabulary for health-related situations and emergencies.",
-		level: "Advanced",
-		duration: "50 min",
 	},
 ];
 
@@ -73,7 +24,6 @@ const Learn = () => {
 			lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			lesson.description.toLowerCase().includes(searchQuery.toLowerCase());
 		const matchesLevel = levelFilter ? lesson.level === levelFilter : true;
-
 		return matchesSearch && matchesLevel;
 	});
 
@@ -85,7 +35,6 @@ const Learn = () => {
 	return (
 		<div className="min-h-screen flex flex-col" style={{ backgroundColor: "#EDEDED", color: "#252525" }}>
 			<Navbar />
-
 			<main className="flex-1 pt-32 pb-20">
 				<div className="container mx-auto px-4 md:px-6">
 					<div className="max-w-5xl mx-auto">
@@ -103,8 +52,7 @@ const Learn = () => {
 								Master American Sign Language
 							</h1>
 							<p className="text-lg max-w-3xl mx-auto" style={{ color: "#8D9192" }}>
-								Explore our comprehensive library of ASL lessons and practice exercises to improve your
-								signing skills.
+								Explore our ASL lesson to begin improving your signing skills.
 							</p>
 						</div>
 
@@ -122,10 +70,10 @@ const Learn = () => {
 										<div className="w-full md:w-48 h-2 bg-[#8D9192] rounded-full overflow-hidden">
 											<div
 												className="bg-[#1D809A] h-full rounded-full"
-												style={{ width: "25%" }}
+												style={{ width: "100%" }}
 											></div>
 										</div>
-										<span className="ml-3 text-sm font-medium">25%</span>
+										<span className="ml-3 text-sm font-medium">100%</span>
 									</div>
 								</div>
 								<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -133,7 +81,7 @@ const Learn = () => {
 										<div className="flex items-center justify-between">
 											<div>
 												<p className="text-sm text-[#8D9192]">Completed</p>
-												<p className="text-2xl font-semibold">2/8</p>
+												<p className="text-2xl font-semibold">1/1</p>
 											</div>
 											<div
 												className="w-10 h-10 flex items-center justify-center rounded-lg"
@@ -147,7 +95,7 @@ const Learn = () => {
 										<div className="flex items-center justify-between">
 											<div>
 												<p className="text-sm text-[#8D9192]">Time Spent</p>
-												<p className="text-2xl font-semibold">1.5 hrs</p>
+												<p className="text-2xl font-semibold">15 min</p>
 											</div>
 											<div
 												className="w-10 h-10 flex items-center justify-center rounded-lg"
@@ -161,7 +109,7 @@ const Learn = () => {
 										<div className="flex items-center justify-between">
 											<div>
 												<p className="text-sm text-[#8D9192]">Signs Learned</p>
-												<p className="text-2xl font-semibold">48</p>
+												<p className="text-2xl font-semibold">26</p>
 											</div>
 											<div
 												className="w-10 h-10 flex items-center justify-center rounded-lg"
@@ -175,7 +123,7 @@ const Learn = () => {
 							</div>
 						</div>
 
-						{/* Search and Filters */}
+						{/* Search and Filter */}
 						<div className="mb-8">
 							<div className="flex flex-col md:flex-row gap-4">
 								<div className="relative flex-1">
@@ -201,8 +149,6 @@ const Learn = () => {
 										>
 											<option value="">All Levels</option>
 											<option value="Beginner">Beginner</option>
-											<option value="Intermediate">Intermediate</option>
-											<option value="Advanced">Advanced</option>
 										</select>
 										<div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
 											<Filter size={16} className="text-[#8D9192]" />
@@ -239,15 +185,7 @@ const Learn = () => {
 													<div className="flex items-center">
 														<div
 															className="w-8 h-8 rounded-full flex items-center justify-center"
-															style={{
-																backgroundColor:
-																	lesson.level === "Beginner"
-																		? "#A5D6A7"
-																		: lesson.level === "Intermediate"
-																		? "#FFF59D"
-																		: "#EF5350",
-																color: "#FFFFFF",
-															}}
+															style={{ backgroundColor: "#A5D6A7", color: "#FFFFFF" }}
 														>
 															<GraduationCap size={16} />
 														</div>
@@ -262,40 +200,22 @@ const Learn = () => {
 													)}
 												</div>
 												<h3 className="text-lg font-semibold mb-2">{lesson.title}</h3>
-												<p className="text-[#8D9192] text-sm mb-6">{lesson.description}</p>
-												<div className="flex items-center justify-between">
-													<div className="flex items-center text-sm text-[#8D9192]">
-														<Clock size={14} className="mr-1" />
-														<span>{lesson.duration}</span>
-													</div>
-													<a
-														href={`/learn/${lesson.id}`}
-														className="flex items-center text-[#1D809A] hover:underline text-sm font-medium"
-													>
-														Start lesson
-														<ChevronRight
-															size={16}
-															className="ml-1"
-															style={{ color: "#1D809A" }}
-														/>
-													</a>
+												<p className="text-sm text-[#8D9192] mb-4">{lesson.description}</p>
+												<div className="flex justify-between items-center">
+													<span className="text-sm text-[#8D9192]">{lesson.duration}</span>
+													<ChevronRight size={20} className="text-[#1D809A]" />
 												</div>
 											</div>
 										</div>
 									))}
 								</div>
 							) : (
-								<div className="text-center py-8">
-									<p className="text-lg text-[#8D9192]">No lessons found.</p>
-								</div>
+								<p className="text-center text-[#8D9192]">No lessons found.</p>
 							)}
 						</div>
 					</div>
 				</div>
 			</main>
-			<footer className="text-center py-6 text-gray-600">
-				<p>&copy; 2025 ASL Web App. All rights reserved.</p>
-			</footer>
 		</div>
 	);
 };

@@ -258,7 +258,7 @@ export default function Translate() {
 								{/* Previous Translations */}
 								<div className="rounded-xl border bg-[#FFFFFF] w-full lg:w-[300px] shadow-md flex flex-col">
 									<div className="p-4 border-b">
-										<h2 className="font-medium">Previous</h2>
+										<h2 className="font-medium">Translation History</h2>
 									</div>
 									<div className="flex-1 p-4 overflow-auto text-sm text-[#4A4A4A] space-y-2">
 										{previousTranslations.length > 0 ? (
